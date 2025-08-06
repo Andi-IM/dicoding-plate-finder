@@ -1,14 +1,17 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+// CulinaryCompass Main App Router
+import { useParams } from 'react-router-dom';
+import { RestaurantList } from './RestaurantList';
+import { RestaurantDetail } from './RestaurantDetail';
 
 const Index = () => {
-  return (
-    <div className="min-h-screen flex items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Welcome to Your Blank App</h1>
-        <p className="text-xl text-muted-foreground">Start building your amazing project here!</p>
-      </div>
-    </div>
-  );
+  const { id } = useParams();
+  
+  // Route to appropriate component based on URL
+  if (id) {
+    return <RestaurantDetail />;
+  }
+  
+  return <RestaurantList />;
 };
 
 export default Index;
