@@ -49,27 +49,26 @@ export const SearchAndFilters = ({
 
   return (
     <div className="space-y-4">
-      {/* Search Bar */}
-      <form onSubmit={handleSearchSubmit} className="relative">
-        <div className="relative">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
-          <Input
-            type="text"
-            placeholder="Search restaurants, cuisines, or locations..."
-            value={localSearchQuery}
-            onChange={(e) => setLocalSearchQuery(e.target.value)}
-            className="pl-10 pr-4 h-12 text-base bg-white/50 backdrop-blur-sm border-primary/20 focus:border-primary"
-            aria-label="Search restaurants, cuisines, or locations"
-          />
-        </div>
-      </form>
-
-      {/* Filter Toggle and Clear */}
-      <div className="flex items-center justify-between">
+      {/* Search Bar with Filter Button */}
+      <div className="flex gap-3 items-center">
+        <form onSubmit={handleSearchSubmit} className="flex-1 relative">
+          <div className="relative">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
+            <Input
+              type="text"
+              placeholder="Search restaurants, cuisines, or locations..."
+              value={localSearchQuery}
+              onChange={(e) => setLocalSearchQuery(e.target.value)}
+              className="pl-10 pr-4 h-12 text-base bg-white/90 backdrop-blur-sm border-white/30 focus:border-white shadow-sm"
+              aria-label="Search restaurants, cuisines, or locations"
+            />
+          </div>
+        </form>
+        
         <Button
           variant="outline"
           onClick={onToggleFilters}
-          className="flex items-center gap-2 h-11 px-4"
+          className="flex items-center gap-2 h-12 px-4 bg-white/90 backdrop-blur-sm border-white/30 hover:bg-white text-foreground shadow-sm"
           aria-label="Toggle filters"
         >
           <Filter className="w-4 h-4" />
@@ -80,20 +79,24 @@ export const SearchAndFilters = ({
             </span>
           )}
         </Button>
+      </div>
 
-        {hasActiveFilters && (
+      {/* Clear Filters Button */}
+      {hasActiveFilters && (
+        <div className="flex justify-end">
+
           <Button
             variant="ghost"
             size="sm"
             onClick={onClearFilters}
-            className="text-muted-foreground hover:text-foreground h-11 px-4"
+            className="text-white/80 hover:text-white hover:bg-white/10 h-10 px-4"
             aria-label="Clear all filters"
           >
             <X className="w-4 h-4 mr-1" />
             Clear Filters
           </Button>
-        )}
-      </div>
+        </div>
+      )}
 
       {/* Filters Panel */}
       {showFilters && (
