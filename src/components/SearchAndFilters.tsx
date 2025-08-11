@@ -59,6 +59,7 @@ export const SearchAndFilters = ({
             value={localSearchQuery}
             onChange={(e) => setLocalSearchQuery(e.target.value)}
             className="pl-10 pr-4 h-12 text-base bg-white/50 backdrop-blur-sm border-primary/20 focus:border-primary"
+            aria-label="Search restaurants, cuisines, or locations"
           />
         </div>
       </form>
@@ -68,7 +69,8 @@ export const SearchAndFilters = ({
         <Button
           variant="outline"
           onClick={onToggleFilters}
-          className="flex items-center gap-2"
+          className="flex items-center gap-2 h-11 px-4"
+          aria-label="Toggle filters"
         >
           <Filter className="w-4 h-4" />
           Filters
@@ -84,7 +86,8 @@ export const SearchAndFilters = ({
             variant="ghost"
             size="sm"
             onClick={onClearFilters}
-            className="text-muted-foreground hover:text-foreground"
+            className="text-muted-foreground hover:text-foreground h-11 px-4"
+            aria-label="Clear all filters"
           >
             <X className="w-4 h-4 mr-1" />
             Clear Filters
@@ -101,7 +104,7 @@ export const SearchAndFilters = ({
               <div className="space-y-2">
                 <label className="text-sm font-medium text-foreground">City</label>
                 <Select value={selectedCity} onValueChange={onCityChange}>
-                  <SelectTrigger>
+                  <SelectTrigger className="h-11" aria-label="Select city">
                     <SelectValue placeholder="All cities" />
                   </SelectTrigger>
                   <SelectContent>
@@ -119,7 +122,7 @@ export const SearchAndFilters = ({
               <div className="space-y-2">
                 <label className="text-sm font-medium text-foreground">Minimum Rating</label>
                 <Select value={minRating.toString()} onValueChange={(value) => onMinRatingChange(Number(value))}>
-                  <SelectTrigger>
+                  <SelectTrigger className="h-11" aria-label="Select minimum rating">
                     <SelectValue placeholder="Any rating" />
                   </SelectTrigger>
                   <SelectContent>
@@ -135,7 +138,7 @@ export const SearchAndFilters = ({
               <div className="space-y-2">
                 <label className="text-sm font-medium text-foreground">Sort by</label>
                 <Select value={sortBy} onValueChange={onSortByChange}>
-                  <SelectTrigger>
+                  <SelectTrigger className="h-11" aria-label="Select sort option">
                     <SelectValue placeholder="Default" />
                   </SelectTrigger>
                   <SelectContent>

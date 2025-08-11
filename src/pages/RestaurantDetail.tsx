@@ -4,6 +4,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useRestaurantDetail, usePostReview } from '@/hooks/useRestaurants';
 import { getImageUrl } from '@/types/restaurant';
 import { RestaurantDetailSkeleton } from '@/components/LoadingSkeletons';
+import { MobileNavigation } from '@/components/MobileNavigation';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -86,12 +87,17 @@ export const RestaurantDetail = () => {
 
   return (
     <div className="min-h-screen bg-gradient-subtle">
-      <div className="container mx-auto px-4 py-8">
+      {/* Mobile Navigation */}
+      <MobileNavigation />
+      
+      <div className="pt-16 lg:pt-0"> {/* Offset for mobile nav */}
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Back Button */}
         <Button
           variant="ghost"
           onClick={() => navigate('/')}
-          className="mb-6 hover:bg-primary/10"
+          className="mb-6 hover:bg-primary/10 h-11 px-4"
+          aria-label="Back to restaurants"
         >
           <ArrowLeft className="w-4 h-4 mr-2" />
           Back to Restaurants
@@ -227,6 +233,8 @@ export const RestaurantDetail = () => {
                 <Button 
                   onClick={() => setShowReviewForm(!showReviewForm)}
                   variant="outline"
+                  className="h-11 px-4"
+                  aria-label="Write a review"
                 >
                   Write Review
                 </Button>
@@ -246,6 +254,8 @@ export const RestaurantDetail = () => {
                             value={reviewName}
                             onChange={(e) => setReviewName(e.target.value)}
                             required
+                            className="h-11"
+                            aria-label="Your name"
                           />
                         </div>
                         <div>
@@ -255,12 +265,14 @@ export const RestaurantDetail = () => {
                             onChange={(e) => setReviewText(e.target.value)}
                             required
                             rows={4}
+                            aria-label="Your review"
                           />
                         </div>
                         <div className="flex gap-2">
                           <Button 
                             type="submit" 
                             disabled={postReviewMutation.isPending || !reviewName.trim() || !reviewText.trim()}
+                            className="h-11 px-6"
                           >
                             {postReviewMutation.isPending ? (
                               <>Submitting...</>
@@ -275,6 +287,7 @@ export const RestaurantDetail = () => {
                             type="button" 
                             variant="outline" 
                             onClick={() => setShowReviewForm(false)}
+                            className="h-11 px-6"
                           >
                             Cancel
                           </Button>
@@ -314,6 +327,7 @@ export const RestaurantDetail = () => {
             </CardContent>
           </Card>
         </div>
+        </div> {/* Close pt-16 wrapper */}
       </div>
     </div>
   );

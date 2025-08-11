@@ -5,6 +5,7 @@ import { useRestaurants, useSearchRestaurants, useFilteredRestaurants, useUnique
 import { RestaurantCard } from '@/components/RestaurantCard';
 import { SearchAndFilters } from '@/components/SearchAndFilters';
 import { RestaurantGridSkeleton } from '@/components/LoadingSkeletons';
+import { MobileNavigation } from '@/components/MobileNavigation';
 import { Button } from '@/components/ui/button';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { AlertCircle, Utensils, ArrowRight } from 'lucide-react';
@@ -18,6 +19,7 @@ export const RestaurantList = () => {
   const [minRating, setMinRating] = useState(0);
   const [sortBy, setSortBy] = useState<string>('');
   const [showFilters, setShowFilters] = useState(false);
+  const [showMobileSearch, setShowMobileSearch] = useState(false);
 
   // Data fetching
   const { data: restaurantsData, isLoading, error } = useRestaurants();
@@ -88,25 +90,29 @@ export const RestaurantList = () => {
 
   return (
     <div className="min-h-screen bg-gradient-subtle">
+      {/* Mobile Navigation */}
+      <MobileNavigation onSearchToggle={() => setShowMobileSearch(!showMobileSearch)} />
+      
+      <div className="pt-16 lg:pt-0">{/* Offset for mobile nav */}
       {/* Hero Section */}
       <div className="relative">
         <div 
-          className="h-96 bg-cover bg-center relative"
+          className="h-64 md:h-80 lg:h-96 bg-cover bg-center relative"
           style={{ backgroundImage: `url(${heroImage})` }}
         >
           <div className="absolute inset-0 bg-black/40" />
           <div className="absolute inset-0 bg-gradient-hero/20" />
           
-          <div className="relative container mx-auto px-4 h-full flex items-center justify-center">
+          <div className="relative container mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center justify-center">
             <div className="text-center text-white">
               <div className="flex items-center justify-center mb-4">
-                <Utensils className="w-12 h-12 text-white mr-3" />
-                <h1 className="text-4xl md:text-5xl font-bold">CulinaryCompass</h1>
+                <Utensils className="w-8 md:w-12 h-8 md:h-12 text-white mr-3" />
+                <h1 className="text-2xl md:text-4xl lg:text-5xl font-bold leading-tight">CulinaryCompass</h1>
               </div>
-              <p className="text-xl md:text-2xl mb-8 text-white/90">
+              <p className="text-lg md:text-xl lg:text-2xl mb-6 md:mb-8 text-white/90 leading-relaxed">
                 Discover amazing restaurants and authentic flavors
               </p>
-              <div className="max-w-2xl mx-auto">
+              <div className="max-w-2xl mx-auto hidden lg:block">
                 <SearchAndFilters
                   searchQuery={searchQuery}
                   onSearchQueryChange={setSearchQuery}
@@ -128,8 +134,31 @@ export const RestaurantList = () => {
         </div>
       </div>
 
+      {/* Mobile Search Section */}
+      {showMobileSearch && (
+        <div className="lg:hidden bg-background border-b border-border p-4">
+          <div className="container mx-auto">
+            <SearchAndFilters
+              searchQuery={searchQuery}
+              onSearchQueryChange={setSearchQuery}
+              onSearchSubmit={handleSearchSubmit}
+              selectedCity={selectedCity}
+              onCityChange={setSelectedCity}
+              minRating={minRating}
+              onMinRatingChange={setMinRating}
+              sortBy={sortBy}
+              onSortByChange={setSortBy}
+              cities={cities}
+              showFilters={showFilters}
+              onToggleFilters={() => setShowFilters(!showFilters)}
+              onClearFilters={handleClearFilters}
+            />
+          </div>
+        </div>
+      )}
+
       {/* Results Section */}
-      <div className="container mx-auto px-4 py-12">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
         {/* Results Header */}
         <div className="flex items-center justify-between mb-8">
           <div>
@@ -162,13 +191,14 @@ export const RestaurantList = () => {
             <p className="text-muted-foreground mb-6">
               Try adjusting your search criteria or browse all restaurants.
             </p>
-            <Button onClick={handleClearFilters} variant="outline">
+            <Button onClick={handleClearFilters} variant="outline" className="h-11 px-6">
               Clear Filters
               <ArrowRight className="w-4 h-4 ml-2" />
             </Button>
           </div>
         )}
       </div>
+      </div> {/* Close pt-16 wrapper */}
     </div>
   );
 };
