@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { Menu, Utensils, Home, Search } from 'lucide-react';
+import { ThemeToggle } from '@/components/ThemeToggle';
 
 interface MobileNavigationProps {
   onSearchToggle?: () => void;
@@ -23,6 +24,7 @@ export const MobileNavigation = ({ onSearchToggle }: MobileNavigationProps) => {
 
           {/* Mobile Menu */}
           <div className="flex items-center gap-2">
+            <ThemeToggle />
             {onSearchToggle && (
               <Button
                 variant="ghost"
