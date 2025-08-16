@@ -17,7 +17,7 @@ export function ThemeToggle() {
         <Button 
           variant="ghost" 
           size="icon" 
-          className="h-10 w-10 text-white hover:bg-white/10"
+          className="h-10 w-10 text-foreground hover:bg-accent hover:text-accent-foreground"
           aria-label="Toggle theme"
         >
           <Sun className="h-5 w-5 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
