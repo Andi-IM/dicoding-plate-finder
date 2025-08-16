@@ -1,7 +1,7 @@
 // Restaurant List Page - Home Page of CulinaryCompass
-import { useState, useMemo } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useRestaurants, useSearchRestaurants, useFilteredRestaurants, useUniqueCities } from '@/hooks/useRestaurants';
+import { useRestaurants, useSearchRestaurants } from '@/hooks/useRestaurants';
 import { RestaurantCard } from '@/components/RestaurantCard';
 import { SearchAndFilters } from '@/components/SearchAndFilters';
 import { RestaurantGridSkeleton } from '@/components/LoadingSkeletons';
@@ -15,10 +15,6 @@ export const RestaurantList = () => {
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState('');
   const [activeSearchQuery, setActiveSearchQuery] = useState('');
-  const [selectedCity, setSelectedCity] = useState('');
-  const [minRating, setMinRating] = useState(0);
-  const [sortBy, setSortBy] = useState<string>('');
-  const [showFilters, setShowFilters] = useState(false);
   const [showMobileSearch, setShowMobileSearch] = useState(false);
 
   // Data fetching
@@ -27,26 +23,12 @@ export const RestaurantList = () => {
 
   // Determine which restaurants to show
   const restaurants = activeSearchQuery ? searchData?.restaurants || [] : restaurantsData?.restaurants || [];
-  
-  // Get unique cities for filter
-  const cities = useUniqueCities(restaurantsData?.restaurants || []);
-
-  // Apply client-side filtering and sorting
-  const filteredRestaurants = useFilteredRestaurants(restaurants, {
-    city: selectedCity,
-    minRating,
-    sortBy,
-    sortOrder: 'desc'
-  });
 
   const handleSearchSubmit = () => {
     setActiveSearchQuery(searchQuery);
   };
 
-  const handleClearFilters = () => {
-    setSelectedCity('');
-    setMinRating(0);
-    setSortBy('');
+  const handleClearSearch = () => {
     setSearchQuery('');
     setActiveSearchQuery('');
   };
@@ -117,16 +99,6 @@ export const RestaurantList = () => {
                   searchQuery={searchQuery}
                   onSearchQueryChange={setSearchQuery}
                   onSearchSubmit={handleSearchSubmit}
-                  selectedCity={selectedCity}
-                  onCityChange={setSelectedCity}
-                  minRating={minRating}
-                  onMinRatingChange={setMinRating}
-                  sortBy={sortBy}
-                  onSortByChange={setSortBy}
-                  cities={cities}
-                  showFilters={showFilters}
-                  onToggleFilters={() => setShowFilters(!showFilters)}
-                  onClearFilters={handleClearFilters}
                 />
               </div>
             </div>
@@ -142,16 +114,6 @@ export const RestaurantList = () => {
               searchQuery={searchQuery}
               onSearchQueryChange={setSearchQuery}
               onSearchSubmit={handleSearchSubmit}
-              selectedCity={selectedCity}
-              onCityChange={setSelectedCity}
-              minRating={minRating}
-              onMinRatingChange={setMinRating}
-              sortBy={sortBy}
-              onSortByChange={setSortBy}
-              cities={cities}
-              showFilters={showFilters}
-              onToggleFilters={() => setShowFilters(!showFilters)}
-              onClearFilters={handleClearFilters}
             />
           </div>
         </div>
@@ -166,7 +128,7 @@ export const RestaurantList = () => {
               {activeSearchQuery ? `Search Results for "${activeSearchQuery}"` : 'All Restaurants'}
             </h2>
             <p className="text-muted-foreground">
-              {isSearching ? 'Searching...' : `${filteredRestaurants.length} restaurants found`}
+              {isSearching ? 'Searching...' : `${restaurants.length} restaurants found`}
             </p>
           </div>
         </div>
@@ -174,9 +136,9 @@ export const RestaurantList = () => {
         {/* Restaurant Grid */}
         {isSearching ? (
           <RestaurantGridSkeleton />
-        ) : filteredRestaurants.length > 0 ? (
+        ) : restaurants.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredRestaurants.map((restaurant) => (
+            {restaurants.map((restaurant) => (
               <RestaurantCard
                 key={restaurant.id}
                 restaurant={restaurant}
@@ -189,10 +151,10 @@ export const RestaurantList = () => {
             <Utensils className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
             <h3 className="text-xl font-semibold text-foreground mb-2">No restaurants found</h3>
             <p className="text-muted-foreground mb-6">
-              Try adjusting your search criteria or browse all restaurants.
+              Try a different search or browse all restaurants.
             </p>
-            <Button onClick={handleClearFilters} variant="outline" className="h-11 px-6">
-              Clear Filters
+            <Button onClick={handleClearSearch} variant="outline" className="h-11 px-6">
+              Clear Search
               <ArrowRight className="w-4 h-4 ml-2" />
             </Button>
           </div>
