@@ -33,7 +33,7 @@ export const SearchAndFilters = ({
             placeholder="Search restaurants, cuisines, or locations..."
             value={localSearchQuery}
             onChange={(e) => setLocalSearchQuery(e.target.value)}
-            className="pl-10 pr-4 h-11 text-base bg-white/90 backdrop-blur-sm border-white/30 focus:border-white shadow-sm"
+            className="pl-10 pr-4 h-11 text-base"
             aria-label="Search restaurants, cuisines, or locations"
           />
         </div>
@@ -42,7 +42,7 @@ export const SearchAndFilters = ({
       <Button
         type="submit"
         onClick={handleSearchSubmit}
-        className="h-11 px-6 bg-primary text-primary-foreground hover:bg-primary/90 shadow-sm"
+        className="h-11 px-6"
         aria-label="Search"
       >
         Search
